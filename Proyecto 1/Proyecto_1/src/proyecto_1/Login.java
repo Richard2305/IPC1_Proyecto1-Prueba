@@ -90,19 +90,29 @@ public class Login extends JFrame implements ActionListener {
             case "Iniciar Sesión":
                 String username = usernameField.getText();
                 String pwd = new String(passwordField.getPassword());
+                boolean usuarioEncontrado = false;
                 
-
-                
-                if(username.equals("admin") && pwd.equals("proyecto1IPC1")){
-                    JOptionPane.showMessageDialog(this, "Bienvenido su código es: 202111219", "Bienvenido", 1);
-                    Admin vtn_admin = new Admin();
-                    this.dispose();
-                    
-                    
+                for(Pacientes paciente : Proyecto_1.listaPacientes) {
+                    if(paciente.getNombre().equals(username)){
+                        usuarioEncontrado = true;
+                        if(paciente.getContraseña().equals(pwd)){
+                            JOptionPane.showMessageDialog(this,"Bienvenido su código es: " + paciente.getCodigo(), "Bienvenido ", JOptionPane.INFORMATION_MESSAGE);
+                            
+                            Admin vtn_admin = new Admin();
+                            this.dispose();
+                        } else {
+                            JOptionPane.showMessageDialog(this, "Contraseña incorrecta", "Error con el LOGIN", JOptionPane.ERROR_MESSAGE);
+                        }
+                        break;
+                    }
                 }
-                else{
-                    JOptionPane.showMessageDialog(this, "Código y/o contraseña incorecta", "Error con el LOGIN", 0);
-                }   break;
+                
+                if(!usuarioEncontrado){
+                    JOptionPane.showMessageDialog(this, "Usuario no encontrado", "Error con el LOGIN", JOptionPane.ERROR_MESSAGE);
+                }
+                
+                
+                break;
             case "Registrarse como Doctor":
                 Proyecto_1.accion=1;
                 Registro vtn_DoctoresR = new Registro();
